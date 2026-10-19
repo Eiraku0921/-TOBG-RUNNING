@@ -1,0 +1,583 @@
+/*
+ * PC の画面の骨組み（includes/site_header.php が読み込む）。スマホ・タブレットの見た目は変えない。
+ *   992px 以上 : 上に白いヘッダー（64px・下線）、左に縦のメニュー（280px）。本文はその右側
+ *   1200px 以上: さらに右に補助欄（練習のまとめ・次の合同練習・お知らせ。includes/side_rail.php）
+ * ヘッダー・左メニュー・補助欄は画面に固定し、本文はその分だけ余白を空けて並べる（各ページの作りはそのまま）。
+ */
+
+.site-side,
+.site-rail {
+    display: none;
+}
+
+@media (min-width: 992px) {
+    :root {
+        --site-top-h: 64px;
+        --site-side-w: 280px;
+        --site-header-pad-x: 28px;
+    }
+    html {
+        scroll-padding-top: calc(var(--site-top-h) + 16px); /* ページ内の移動先がヘッダーに隠れないように */
+    }
+    body {
+        padding-top: var(--site-top-h);
+        padding-left: var(--site-side-w);
+    }
+
+    /* ---- ヘッダー: 画面の上に固定。白地・下線。左にロゴ、右にベルと自分のアイコン ---- */
+    .site-header {
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        height: var(--site-top-h);
+        padding: 0;
+        border-bottom: 1px solid var(--line);
+        background: var(--surface);
+    }
+    .site-header-inner {
+        max-width: none;
+        height: 100%;
+        padding: 0 var(--site-header-pad-x);
+        border-bottom: 0;
+    }
+    .site-brand-link {
+        font-size: 17px;
+    }
+    /* 画面の切り替えは左メニューにあるので、ヘッダーの真ん中には出さない */
+    .site-header-nav {
+        display: none !important;
+    }
+    .site-user-actions {
+        gap: 18px;
+    }
+    .site-bell-btn {
+        width: 54px;
+        height: 54px;
+    }
+    .site-bell-btn svg {
+        width: 26px;
+        height: 26px;
+    }
+    .site-bell-count {
+        box-shadow: 0 0 0 2px var(--surface);
+    }
+    /* 自分のアイコンだけ（名前は左メニューに出す） */
+    .site-user-pill {
+        padding: 0;
+        background: none;
+    }
+    .site-user-pill-name {
+        display: none;
+    }
+    .site-user-pill .site-user-avatar,
+    .site-user-pill .site-user-initials {
+        width: 54px;
+        height: 54px;
+        font-size: 18px;
+    }
+
+    /* ---- 左メニュー ---- */
+    .site-side {
+        position: fixed;
+        top: var(--site-top-h);
+        bottom: 0;
+        left: 0;
+        z-index: 1015; /* ヘッダー（1020）の下、本文の上 */
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        width: var(--site-side-w);
+        padding: 20px 14px 28px;
+        overflow-y: auto;
+        border-right: 1px solid var(--line);
+        background: var(--surface);
+    }
+    /* 自分（押すとマイページ） */
+    .site-side-me {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 12px;
+        padding: 10px;
+        border-radius: 14px;
+        color: var(--navy);
+        text-decoration: none;
+    }
+    .site-side-me:hover {
+        background: var(--app);
+        color: var(--navy);
+    }
+    .site-side-avatar {
+        flex-shrink: 0;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+    .site-side-avatar.is-initials {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--wis);
+        color: #FFFFFF;
+        font-family: var(--font-num);
+        font-size: 13px;
+        font-weight: 800;
+    }
+    .site-side-me-text {
+        min-width: 0;
+    }
+    .site-side-me-text strong,
+    .site-side-me-text small {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .site-side-me-text strong {
+        font-size: 14px;
+    }
+    .site-side-me-text small {
+        color: var(--sub);
+        font-size: 11px;
+        font-weight: 700;
+    }
+    .site-side-login {
+        margin-bottom: 12px;
+        padding: 10px 14px;
+        border-radius: 12px;
+        background: var(--app);
+        color: var(--navy);
+        font-weight: 700;
+        text-align: center;
+        text-decoration: none;
+    }
+    /* 「練習を記録する」: オレンジの丸いボタン（幅いっぱい） */
+    .site-side-record {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        height: 64px;
+        margin: 14px 0 4px; /* 画面のメニューの下に置く */
+        border: 0;
+        border-radius: 999px;
+        background: var(--orange);
+        box-shadow: 0 6px 16px rgba(255, 122, 26, .3);
+        color: #FFFFFF;
+        font-size: 15px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: transform .12s, filter .15s;
+    }
+    .site-side-record svg {
+        width: 22px;
+        height: 22px;
+    }
+    .site-side-record:hover {
+        color: #FFFFFF;
+        filter: brightness(1.05);
+        transform: translateY(-1px);
+    }
+    /* 画面の切り替え・管理メニュー: アイコン＋名前の行。選択中はオレンジの薄い地 */
+    .site-side-nav,
+    .site-side-admin {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+    .site-side-nav .site-tab,
+    .site-side-admin-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 11px 14px;
+        border-radius: 12px;
+        color: var(--sub);
+        font-size: 14px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: background .15s, color .15s;
+    }
+    .site-side-nav .site-tab svg {
+        width: 22px;
+        height: 22px;
+        flex-shrink: 0;
+    }
+    .site-side-nav .site-tab:hover,
+    .site-side-admin-item:hover {
+        background: var(--app);
+        color: var(--navy);
+    }
+    .site-side-nav .site-tab.is-current,
+    .site-side-admin-item.is-active {
+        background: var(--orange-soft);
+        color: var(--orange-deep);
+    }
+    .site-side-sec {
+        margin: 18px 0 6px;
+        padding: 14px 14px 0;
+        border-top: 1px solid var(--line);
+        color: var(--sub);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: .08em;
+    }
+    .site-side-admin-item {
+        padding: 9px 14px;
+        font-size: 13px;
+    }
+    .site-side-logout {
+        margin-top: auto; /* 左メニューのいちばん下に置く */
+        padding: 18px 14px 0;
+        color: var(--coral);
+        font-size: 13px;
+        font-weight: 700;
+        text-decoration: none;
+    }
+    .site-side-logout:hover {
+        color: var(--coral);
+        text-decoration: underline;
+    }
+    .site-side-admin-item svg {
+        width: 18px;
+        height: 18px;
+        flex-shrink: 0;
+    }
+
+    /* トーストは画面の真ん中ではなく、本文の真ん中に出す */
+    .site-toast {
+        left: calc(50% + var(--site-side-w) / 2);
+        bottom: 32px;
+    }
+}
+
+/* ---- 右の補助欄（1200px 以上） ---- */
+@media (min-width: 1200px) {
+    :root {
+        --site-rail-w: 388px; /* 中身 340px ＋ 左右の余白 */
+        --site-main-w: 808px; /* 本文 760px ＋ 左右の余白 */
+        /* 画面が広いときは「本文＋補助欄」を1つのかたまりにして、左メニューの右側の真ん中に置く（余った幅を左右に分ける） */
+        --site-extra: max(0px, (100vw - var(--site-side-w) - var(--site-main-w) - var(--site-rail-w)) / 2);
+    }
+    body:has(.site-rail) {
+        padding-left: calc(var(--site-side-w) + var(--site-extra));
+        padding-right: calc(var(--site-rail-w) + var(--site-extra));
+    }
+    body:has(.site-rail) .site-toast {
+        left: calc(50% + (var(--site-side-w) - var(--site-rail-w)) / 2);
+    }
+    .site-rail {
+        position: fixed;
+        top: var(--site-top-h);
+        right: var(--site-extra);
+        bottom: 0;
+        z-index: 1010;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        width: var(--site-rail-w);
+        padding: 32px 24px 40px;
+        overflow-y: auto;
+        background: var(--app);
+    }
+}
+
+/* 補助欄の中身（表示するかどうかは上の @media で決める） */
+.rail-sec {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.rail-sec-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.rail-eb {
+    margin: 0;
+    font-family: var(--font-num);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    color: var(--orange-deep);
+}
+.rail-more {
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: var(--orange-soft);
+    color: var(--orange-deep);
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+}
+.rail-more:hover {
+    color: var(--orange-deep);
+    filter: brightness(.97);
+}
+.rail-card {
+    display: block;
+    margin: 0;
+    padding: 14px 16px;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: var(--surface);
+    color: var(--navy);
+    text-decoration: none;
+}
+.rail-empty {
+    color: var(--sub);
+    font-size: 13px;
+}
+
+/* 練習のまとめ（紺のカード） */
+.rail-week {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px;
+    border-radius: 20px;
+    background: var(--dark-card);
+    color: #FFFFFF;
+    text-decoration: none;
+    transition: transform .18s ease, box-shadow .18s ease;
+}
+.rail-week:hover {
+    color: #FFFFFF;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 26px rgba(31, 42, 68, .18);
+}
+.rail-week-head {
+    font-family: var(--font-num);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    color: var(--chart);
+}
+.rail-week-head span {
+    margin-left: 6px;
+    color: var(--dark-card-sub);
+    letter-spacing: 0;
+}
+.rail-week-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.rail-week-stats > span {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-left: 12px;
+    border-left: 1px solid rgba(255, 255, 255, .2);
+}
+.rail-week-stats > span:first-child {
+    padding-left: 0;
+    border-left: 0;
+}
+.rail-week-stats b {
+    font-family: var(--font-num);
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.1;
+}
+.rail-week-stats small {
+    color: var(--dark-card-sub);
+    font-size: 11px;
+    font-weight: 700;
+}
+.rail-week-chart {
+    display: flex;
+    align-items: stretch;
+    gap: 6px;
+    height: 72px;
+}
+.rail-week-day {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 3px;
+}
+.rail-week-day i {
+    display: block;
+    width: 100%;
+    max-width: 22px;
+    border-radius: 5px 5px 2px 2px;
+    background: var(--chart);
+}
+.rail-week-day small {
+    color: var(--dark-card-sub);
+    font-size: 10px;
+    font-weight: 700;
+}
+.rail-week-day.is-today i {
+    background: var(--orange);
+    box-shadow: 0 0 0 1.5px #FFFFFF;
+}
+.rail-week-day.is-today small {
+    color: #FFFFFF;
+}
+.rail-week-day.is-future i {
+    background: rgba(255, 255, 255, .15);
+}
+
+/* 次の合同練習 */
+.rail-session {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    transition: transform .18s ease, box-shadow .18s ease;
+}
+.rail-session:hover {
+    color: var(--navy);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 26px rgba(31, 42, 68, .09);
+}
+.rail-session-date {
+    font-family: var(--font-num);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--orange-deep);
+}
+.rail-session-title {
+    font-size: 15px;
+    font-weight: 900;
+}
+.rail-session-place {
+    color: var(--sub);
+    font-size: 12px;
+}
+.rail-session-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 6px;
+    font-size: 12px;
+    font-weight: 700;
+}
+.rail-chip {
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: var(--orange-soft);
+    color: var(--orange-deep);
+    font-size: 11px;
+}
+.rail-chip.is-canceled {
+    background: #FFF1EE;
+    color: var(--coral);
+}
+
+/* お知らせ */
+.rail-news {
+    padding: 4px 14px;
+    list-style: none;
+}
+.rail-news li + li {
+    border-top: 1px solid var(--line);
+}
+.rail-news a {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 10px 0;
+    color: var(--navy);
+    text-decoration: none;
+}
+.rail-news a:hover .rail-news-title {
+    color: var(--orange-deep);
+}
+.rail-news-title {
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.5;
+}
+/* 重要なお知らせの札（タイトルの前。赤い枠と赤い文字） */
+.rail-important {
+    display: inline-block;
+    margin-right: 6px;
+    padding: 0 6px;
+    border: 1px solid var(--coral);
+    border-radius: 4px;
+    color: var(--coral);
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1.6;
+    vertical-align: 1px;
+}
+.rail-news-date {
+    color: var(--sub);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+/* ---- 動き（PC）: 押せるカードはマウスを乗せると少し浮く。画面を開いたときは中身を上から順にふわっと出す ---- */
+@media (min-width: 992px) {
+    .home-entry,
+    .club-team-card,
+    .tl-item {
+        transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .home-entry:hover,
+    .club-team-card:hover,
+    .tl-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 26px rgba(31, 42, 68, .09);
+    }
+    @keyframes siteFadeUp {
+        from {
+            opacity: 0;
+            transform: translateY(8px);
+        }
+        to {
+            opacity: 1;
+            transform: none;
+        }
+    }
+    :is(.home-wrap, .timeline-wrap, .club-wrap, .pr-wrap, .mypage-wrap, .page-wrap, .gallery-wrap, .member-wrap) > *,
+    .site-rail > * {
+        animation: siteFadeUp .35s ease both;
+    }
+    :is(.home-wrap, .timeline-wrap, .club-wrap, .pr-wrap, .mypage-wrap, .page-wrap, .gallery-wrap, .member-wrap, .site-rail) > :nth-child(2) { animation-delay: .04s; }
+    :is(.home-wrap, .timeline-wrap, .club-wrap, .pr-wrap, .mypage-wrap, .page-wrap, .gallery-wrap, .member-wrap, .site-rail) > :nth-child(3) { animation-delay: .08s; }
+    :is(.home-wrap, .timeline-wrap, .club-wrap, .pr-wrap, .mypage-wrap, .page-wrap, .gallery-wrap, .member-wrap, .site-rail) > :nth-child(4) { animation-delay: .12s; }
+    :is(.home-wrap, .timeline-wrap, .club-wrap, .pr-wrap, .mypage-wrap, .page-wrap, .gallery-wrap, .member-wrap, .site-rail) > :nth-child(n+5) { animation-delay: .16s; }
+}
+/* 動きを減らす設定の人には出さない */
+@media (prefers-reduced-motion: reduce) {
+    :is(.home-wrap, .timeline-wrap, .club-wrap, .pr-wrap, .mypage-wrap, .page-wrap, .gallery-wrap, .member-wrap) > *,
+    .site-rail > * {
+        animation: none !important;
+    }
+    .home-entry,
+    .club-team-card,
+    .tl-item,
+    .rail-week,
+    .rail-session,
+    .site-side-record {
+        transition: none !important;
+    }
+}
+
+/* ---- タブレット（768〜991px）: 左メニューは出さず、ヘッダーの真ん中にメニューを並べる幅。
+   文字が縦に折れないよう1行にし、自分の名前は出さずにアイコンだけにする ---- */
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .site-header-nav .site-tab {
+        padding: 8px 8px;
+        white-space: nowrap;
+    }
+    .site-header-record {
+        margin-left: 4px;
+    }
+    .site-user-pill {
+        flex-shrink: 0;
+        padding: 0;
+        overflow: visible;
+        background: none;
+    }
+    .site-user-pill-name {
+        display: none;
+    }
+}

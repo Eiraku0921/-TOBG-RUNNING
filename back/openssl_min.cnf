@@ -1,0 +1,7 @@
+# web_push_lib.php で鍵を作るときの最小の OpenSSL 設定。
+# サーバーに openssl.cnf が見つからない環境（Windows の PHP など）でだけ使う。
+# default_bits は楕円曲線の鍵では使われないが、PHP が値の有無を確認するので入れておく。
+[req]
+default_bits = 2048
+distinguished_name = req_distinguished_name
+[req_distinguished_name]

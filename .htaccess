@@ -1,0 +1,9 @@
+# 常時HTTPS化: HTTP で来たアクセスを HTTPS に転送する（プッシュ通知・ログイン保持の前提）。
+# 手元の開発環境（localhost）は転送しない。
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{HTTPS} !=on
+    RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+    RewriteCond %{HTTP_HOST} !^(localhost|127\.0\.0\.1)(:\d+)?$ [NC]
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+</IfModule>

@@ -1,0 +1,436 @@
+@charset "utf-8";
+
+/* ==========================================================================
+   練習日記の登録シート（includes/diary_post_sheet.php）。動きは js/diary_post_sheet.js
+   ログイン中は全ページのヘッダーから読み込む
+   ========================================================================== */
+
+.diary-type-toggle .btn {
+    font-weight: 700;
+}
+@media (max-width: 576px) {
+    .diary-type-toggle .btn {
+        font-size: 0.8rem;
+        padding-left: 6px;
+        padding-right: 6px;
+        white-space: normal;
+        line-height: 1.25;
+        text-align: center;
+    }
+    .diary-type-toggle label[for="diaryTypeWeight"] {
+        white-space: nowrap;
+    }
+}
+.diary-weight-panel {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px;
+}
+.weight-entry-chip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    background: #ffffff;
+    border: 1px solid #dbe4ef;
+    border-radius: 10px;
+    padding: 6px 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #334155;
+}
+.weight-entry-chip button {
+    border: 0;
+    background: transparent;
+    color: #b91c1c;
+    font-weight: 700;
+    font-size: 0.8rem;
+    line-height: 1;
+    white-space: nowrap;
+}
+.running-row-laps-caption {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #64748b;
+}
+.running-row-add-lap {
+    font-size: 0.75rem;
+    padding: 2px 10px;
+}
+/* 1本ごとのタイム: 「○本目」と、秒（・分）・小数点以下のプルダウン */
+.running-lap-box {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 4px 6px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--surface);
+}
+.running-lap-label {
+    margin-right: 2px;
+    color: var(--sub);
+    font-size: 0.72rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+.running-lap-box .form-select {
+    width: auto;
+    padding-right: 1.6rem;
+    background-position: right 0.4rem center;
+}
+.combo-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1055;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.14);
+    max-height: 220px;
+    overflow-y: auto;
+    margin-top: 2px;
+}
+.combo-dropdown-item {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 7px 10px;
+    border: 0;
+    background: transparent;
+    font-size: 0.85rem;
+    color: #334155;
+}
+.combo-dropdown-item:hover,
+.combo-dropdown-item:focus {
+    background: var(--color-today-bg);
+}
+/* hidden を効かせるため d-flex は使わず、表示中だけ横並びにする */
+.race-wind-picker:not([hidden]) {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.race-wind-picker .form-select,
+.race-official {
+    width: auto;
+    min-width: 64px;
+}
+.race-result-picker .form-select {
+    width: auto;
+    min-width: 64px;
+}
+.race-result-unit {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #64748b;
+}
+.btn-weight-confirm {
+    background: var(--color-accent-bg);
+    border-color: var(--color-accent);
+    color: var(--color-text-primary);
+    font-weight: 700;
+}
+.btn-weight-confirm:hover,
+.btn-weight-confirm:focus {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-accent-text);
+}
+.diary-post-modal-header {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+}
+.diary-post-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    width: 100%;
+}
+.diary-post-header-row .modal-title {
+    white-space: nowrap;
+}
+/* 練習日記の公開範囲のチップ（横12px・折り返したときの縦14pxの間隔。縦は誤タップを防ぐため広め） */
+.diary-scope-field legend {
+    font-size: 1rem;
+}
+.diary-scope-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px 12px;
+}
+.diary-scope-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    background: var(--color-tab-bg);
+    color: var(--color-text-secondary);
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    user-select: none;
+}
+.diary-scope-chip svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+.btn-check:checked + .diary-scope-chip,
+.diary-scope-chip.is-fixed {
+    background: var(--color-accent);
+    color: var(--color-accent-text);
+}
+.diary-scope-chip.is-fixed {
+    cursor: default;
+}
+.btn-check:focus-visible + .diary-scope-chip {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+.diary-scope-note {
+    margin: 6px 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.75rem;
+}
+/* 写真・動画の選択: ブラウザ標準の「ファイルの選択」は見えなくして（キーボード・読み上げでは使える）、
+   点線の枠の「＋ 写真を追加」を押して選ぶ。選んだら実線のオレンジにして、ファイル名と「選択を削除」を出す */
+.file-pick {
+    position: relative;
+}
+.file-pick-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    overflow: hidden;
+}
+.file-pick-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 52px;
+    margin: 0;
+    padding: 10px 14px;
+    border: 1.5px dashed var(--color-border);
+    border-radius: var(--card-radius);
+    background: var(--color-page-bg);
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
+}
+.file-pick-box:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+}
+.file-pick-plus {
+    font-size: 1.1rem;
+    line-height: 1;
+}
+.file-pick-input:focus-visible + .file-pick-box {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+.file-pick.has-file .file-pick-box {
+    border-style: solid;
+    border-color: var(--color-accent);
+    background: var(--color-accent-bg);
+    color: var(--color-accent);
+}
+.file-pick.has-file .file-pick-plus {
+    display: none;
+}
+.file-pick:not(.has-file) ~ .file-pick-meta {
+    display: none !important; /* .d-flex の !important より強くする */
+}
+
+/* ジョグの距離の行: [整数] . [小数] km [×]（行カードは仕様書の rowcard: 白地・角丸14px、右に削除） */
+.jog-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 10px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--surface);
+}
+.jog-row .form-select {
+    width: auto;
+    min-width: 64px;
+}
+.jog-row-sep,
+.jog-row-unit {
+    color: var(--sub);
+    font-weight: 700;
+}
+.jog-row-remove {
+    width: 26px;
+    height: 26px;
+    margin-left: auto;
+    padding: 0;
+    border: 1px solid #E9B4AA;
+    border-radius: 8px;
+    background: var(--surface);
+    color: var(--coral);
+    font-weight: 700;
+    line-height: 1;
+}
+.jog-total {
+    color: var(--navy);
+    font-family: var(--font-num);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+.diary-type-toggle label[for="diaryTypeJog"] {
+    white-space: nowrap;
+}
+
+/* ---- スマホでは、下から出るシートにする（最大の高さ92%、上だけ角丸26px、中だけスクロール） ---- */
+@media (max-width: 767.98px) {
+    .diary-sheet .modal-dialog {
+        display: flex;
+        align-items: flex-end;
+        min-height: 100%;
+        max-width: none;
+        margin: 0;
+    }
+    .diary-sheet.fade .modal-dialog {
+        transform: translateY(100%);
+        transition: transform 0.25s ease-out;
+    }
+    .diary-sheet.show .modal-dialog {
+        transform: none;
+    }
+    .diary-sheet .modal-content {
+        max-height: 92vh;
+        overflow: hidden;
+        border: 0;
+        border-radius: 26px 26px 0 0;
+    }
+    /* フォームがヘッダー・本文・フッターを包んでいるので、フォームを縦に並べて本文だけスクロールさせる */
+    .diary-sheet .modal-content > form {
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+        max-height: 92vh;
+    }
+    .diary-sheet .modal-body {
+        overflow-y: auto;
+        overscroll-behavior: contain;
+    }
+    .diary-sheet .modal-footer {
+        padding-bottom: calc(12px + env(safe-area-inset-bottom));
+    }
+}
+
+/* シートの後ろはネイビー45%で暗くする */
+body:has(#diaryPostModal.show) .modal-backdrop {
+    --bs-backdrop-bg: var(--navy);
+    --bs-backdrop-opacity: 0.45;
+}
+
+/* ---- 下書き ---- */
+/* 下書きを戻したときの案内（本文のいちばん上） */
+.diary-draft-note {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 6px 12px;
+    margin-bottom: 14px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    background: var(--orange-soft);
+    color: var(--navy);
+    font-size: .85rem;
+    font-weight: 700;
+}
+.diary-draft-note[hidden] {
+    display: none;
+}
+.diary-draft-discard {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--coral);
+    font-size: .8rem;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+/* フッター: 左に保存の結果、右に「下書きを保存」「投稿する」 */
+.diary-sheet .modal-footer {
+    gap: 8px;
+}
+.diary-draft-status {
+    margin-right: auto;
+    font-size: .8rem;
+    font-weight: 700;
+    color: var(--sub);
+}
+
+/* ---- PC（992px 以上）: 幅の広い窓で2列にする ----
+   左: 公開範囲・日付と強度とタイトル・ひとこと・写真と動画　右: 練習タイプと種目の入力
+   入力欄の並び（HTML）はスマホと同じまま、置き場所だけを決める */
+@media (min-width: 992px) {
+    .diary-sheet .modal-dialog {
+        max-width: min(1060px, calc(100vw - 48px));
+    }
+    .diary-sheet .modal-body {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+        grid-template-areas:
+            "note    note"
+            "scope   type"
+            "date    panel"
+            "comment panel"
+            "media   panel";
+        grid-template-rows: auto auto auto auto 1fr;
+        column-gap: 28px;
+        align-items: start;
+        padding: 18px 24px;
+    }
+    .diary-sheet #diaryDraftNote { grid-area: note; }
+    .diary-sheet .diary-scope-field { grid-area: scope; }
+    .diary-sheet .modal-body > div:has(#practice_date) { grid-area: date; }
+    .diary-sheet #diaryTypeSection { grid-area: type; }
+    .diary-sheet #dyRacePanel,
+    .diary-sheet #dyRunningPanel,
+    .diary-sheet #dyJogPanel,
+    .diary-sheet #dyWeightPanel {
+        grid-area: panel;
+        max-height: 560px;
+        overflow-y: auto;
+    }
+    /* 大会のときは練習タイプが無いので、種目の入力を上から始める */
+    .diary-sheet #diaryTypeSection[hidden] + #dyRacePanel {
+        grid-row: type-start / panel-end;
+    }
+    .diary-sheet .modal-body > div:has(#comment_text) { grid-area: comment; }
+    .diary-sheet .modal-body > div:has(#training_image) { grid-area: media; }
+    /* 左の列は狭いので、日付と強度を半分ずつ、タイトルを1行にする */
+    .diary-sheet .modal-body > div:has(#practice_date) > .col-md-3 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+    .diary-sheet .modal-body > div:has(#practice_date) > .col-md-6 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    .diary-sheet .modal-footer {
+        padding: 12px 24px;
+    }
+    .diary-sheet .modal-footer .btn {
+        min-width: 160px;
+    }
+}

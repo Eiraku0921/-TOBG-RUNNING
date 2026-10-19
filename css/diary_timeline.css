@@ -1,0 +1,296 @@
+@charset "utf-8";
+
+/* ==========================================================================
+   練習日記のタイムライン（ホーム・みんなの練習日記で共通）
+   組み立ては js/diary_timeline.js。リストの高さ（中だけスクロールするか）は各ページで決める
+   ========================================================================== */
+
+/* 投稿は1件ずつカードにする（白地・枠 --line・角丸18px） */
+.tl-item {
+    margin-bottom: 12px;
+    padding: 14px 16px 10px;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: var(--surface);
+}
+.tl-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+.tl-head-main {
+    flex: 1;
+    min-width: 0;
+}
+.tl-name-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+/* コーチの投稿の札（右上） */
+.tl-coach {
+    flex-shrink: 0;
+    margin-left: auto;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: var(--orange-soft);
+    color: var(--orange-deep);
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+.tl-open {
+    border: 0;
+    padding: 0;
+    background: transparent;
+    color: var(--color-text-primary);
+    text-align: left;
+    font: inherit;
+}
+.tl-open:hover {
+    color: var(--color-accent);
+}
+.tl-name {
+    font-size: 0.95rem;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.tl-time {
+    margin: 1px 0 0;
+    color: var(--sub);
+    font-size: 0.75rem;
+}
+.tl-title {
+    display: block;
+    margin-top: 2px;
+    font-size: 0.95rem;
+    font-weight: 800;
+    line-height: 1.4;
+}
+/* 一覧の種目とタイム（2つまで）。左に種目、右にタイム、大会は風・公認を小さく添える */
+.tl-summary {
+    margin-top: 6px;
+    padding: 8px 12px;
+    border-radius: 12px;
+    background: var(--app);
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+.tl-summary:hover {
+    background: var(--beige2);
+}
+.tl-sum-row {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 2px 10px;
+    padding: 3px 0;
+}
+.tl-sum-row + .tl-sum-row {
+    border-top: 1px solid var(--line);
+}
+.tl-sum-event {
+    flex: 1 1 auto;
+    min-width: 0;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    overflow-wrap: anywhere;
+}
+.tl-sum-time {
+    font-family: var(--font-num);
+    font-weight: 800;
+    color: var(--navy);
+    white-space: nowrap;
+}
+.tl-sum-note {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+}
+.tl-sum-more {
+    margin: 2px 0 0;
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+}
+/* 開いたら全部の種目が下に出るので、「ほか○種目」は消す */
+.tl-item.is-open .tl-sum-more {
+    display: none;
+}
+/* 開いたときのひとこと */
+.tl-comment-text {
+    margin: 10px 0 0;
+    font-size: 0.88rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+/* 開いたときの練習内容（ウエイトの表・ランニングのセット・大会の記録） */
+.tl-training {
+    margin-top: 10px;
+    font-size: 0.85rem;
+}
+.tl-training .table {
+    --bs-table-bg: transparent;
+    --bs-table-border-color: var(--color-border);
+    margin-bottom: 0;
+}
+.tl-training .table > thead th {
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+.tl-training .mb-2:last-child {
+    margin-bottom: 0 !important;
+}
+.tl-media {
+    margin-top: 10px;
+}
+.tl-media img,
+.tl-media video {
+    display: block;
+    width: 100%;
+    max-width: 420px;
+    max-height: 360px;
+    object-fit: contain;
+    border-radius: 10px;
+    background: var(--color-page-bg);
+}
+.tl-media img + video {
+    margin-top: 8px;
+}
+/* いいね・コメント: 上に罫線を引いて、本文と分ける */
+.tl-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid var(--line);
+}
+.tl-action-label {
+    margin-right: 2px;
+}
+.tl-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    border: 0;
+    padding: 2px 0;
+    background: transparent;
+    color: var(--color-text-secondary);
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+.tl-action svg {
+    width: 18px;
+    height: 18px;
+}
+.tl-like.active {
+    color: var(--color-accent);
+}
+.tl-like.active svg {
+    fill: currentColor;
+}
+.tl-like .like-count {
+    min-width: 0;
+    color: inherit;
+    font-size: inherit;
+}
+/* 写真・動画のバッジ（コメントのすぐ横） */
+.tl-badge {
+    padding: 2px 9px;
+    border-radius: 999px;
+    background: var(--color-pill-bg);
+    color: var(--color-text-secondary);
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+.tl-badge.is-video {
+    background: #2B2723;
+    color: #FFFFFF;
+}
+.tl-comments {
+    padding-top: 6px;
+}
+.tl-more {
+    display: block;
+    margin: 8px auto 4px;
+}
+.tl-empty {
+    margin: 24px 0;
+    color: var(--color-text-secondary);
+    font-size: 0.88rem;
+    text-align: center;
+}
+
+/* 投稿者のアイコン（写真がないとき）: 藤色の丸に頭文字（仕様書） */
+.tl-head .avatar {
+    width: 36px;
+    height: 36px;
+    background: var(--wis-soft);
+    color: var(--wis);
+    font-size: 13px;
+}
+.tl-head .avatar-image {
+    width: 36px;
+    height: 36px;
+}
+
+/* ---- 見るだけの短い一覧（PC のホームの「みんなの練習日記」。DiaryTimeline.renderPreview） ---- */
+.tl-preview {
+    display: block;
+    color: var(--navy);
+    text-decoration: none;
+    transition: transform .18s ease, box-shadow .18s ease;
+}
+.tl-preview:hover {
+    color: var(--navy);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 26px rgba(31, 42, 68, .09);
+}
+.tl-preview .tl-time,
+.tl-preview .tl-title,
+.tl-preview .tl-summary,
+.tl-preview .tl-sum-more {
+    display: block;
+}
+.tl-preview .avatar,
+.tl-preview .avatar-image {
+    flex-shrink: 0;
+    border-radius: 50%;
+}
+.tl-preview .avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+}
+.tl-preview .avatar-image {
+    object-fit: cover;
+    border: 1px solid var(--line);
+    background: var(--surface);
+}
+.tl-preview-foot {
+    display: block;
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid var(--line);
+    color: var(--sub);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* プレビューのいいね（ハートと数） */
+.tl-preview-like {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+.tl-preview-like svg {
+    width: 14px;
+    height: 14px;
+}

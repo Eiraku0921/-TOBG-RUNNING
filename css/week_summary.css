@@ -1,0 +1,229 @@
+@charset "utf-8";
+
+/* ==========================================================================
+   練習のまとめカード（YOUR WEEK）。ホームと NEXT PR で共通。中身は js/week_summary.js が描く
+   仕様書: 濃いカード（ネイビーのグラデーション、白文字、補足 #C9CEDC、小見出し --chart）、角丸20px
+   ========================================================================== */
+
+.week-card {
+    margin-bottom: 18px;
+    padding: 16px;
+    border-radius: var(--card-radius);
+    /* ほかの濃いカード（--dark-card）より一段明るいネイビー。白い文字は読める濃さに保つ */
+    background: linear-gradient(160deg, #3F5180, #2E3D62);
+    color: #FFFFFF;
+}
+.week-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+/* 「YOUR WEEK 10.05–10.11」は1行で */
+.week-card-eyebrow {
+    margin: 0;
+    color: var(--chart);
+    font-family: var(--font-num);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    white-space: nowrap;
+}
+.week-card-range {
+    margin-left: 4px;
+    color: #FFFFFF;
+    letter-spacing: 0.04em;
+}
+/* 短距離／長距離／両方: 別々の小さい丸ボタン（選択中はオレンジ地） */
+.week-mode {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+}
+.week-mode-btn {
+    padding: 3px 9px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--dark-card-sub);
+    font-size: 11px;
+    font-weight: 700;
+}
+.week-mode-btn[aria-pressed="true"] {
+    border-color: var(--orange);
+    background: var(--orange);
+    color: #FFFFFF;
+}
+
+/* 数字3つ（24px Archivo 800）。間を細い線で区切る */
+.week-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.week-stat {
+    padding: 0 10px;
+}
+.week-stat:first-child {
+    padding-left: 0;
+}
+.week-stat + .week-stat {
+    border-left: 1px solid rgba(255, 255, 255, 0.18);
+}
+.week-stat p {
+    margin: 0;
+}
+.week-stat-value {
+    font-family: var(--font-num);
+    font-size: 24px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.2;
+}
+.week-stat-unit {
+    margin-left: 3px;
+    font-size: 12px;
+    font-weight: 700;
+}
+.week-stat-label {
+    margin-top: 2px !important;
+    color: var(--dark-card-sub);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+/* 日別グラフ: 高さ84px。棒は最大幅22px・最大高さ54px・上の角丸5px（--chart）。今日はオレンジ＋白い縁、未来は白15% */
+.week-chart {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    align-items: end;
+    height: 84px;
+    margin: 14px 0 12px;
+}
+.week-chart-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 3px;
+    height: 100%;
+}
+.week-chart-value {
+    min-height: 12px;
+    font-family: var(--font-num);
+    font-size: 9.5px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+.week-chart-bar {
+    width: 100%;
+    max-width: 22px;
+    border-radius: 5px 5px 0 0;
+    background: var(--chart);
+}
+.week-chart-col.is-today .week-chart-bar {
+    background: var(--orange);
+    box-shadow: 0 0 0 1.5px #FFFFFF;
+}
+.week-chart-col.is-future .week-chart-bar {
+    background: rgba(255, 255, 255, 0.15);
+}
+.week-chart-day {
+    color: var(--dark-card-sub);
+    font-size: 10px;
+    font-weight: 700;
+}
+.week-chart-col.is-today .week-chart-day {
+    color: #FFFFFF;
+}
+
+/* 週の目標: バー（高さ8px、地は白18%、中身はオレンジ）と「週の目標 ◯ ✎ … ◯%」 */
+.week-progress {
+    height: 8px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.18);
+}
+.week-progress-fill {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background: var(--orange);
+}
+.week-goal-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    color: var(--dark-card-sub);
+    font-size: 12px;
+    font-weight: 700;
+}
+.week-goal-edit {
+    padding: 0 4px;
+    border: 0;
+    background: none;
+    color: var(--dark-card-sub);
+    font-size: 13px;
+}
+.week-goal-percent {
+    margin-left: auto;
+    color: #FFFFFF;
+    font-family: var(--font-num);
+    font-variant-numeric: tabular-nums;
+}
+/* 編集中: −／＋ は直径32pxの丸（白35%の枠） */
+.week-goal-step {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 50%;
+    background: transparent;
+    color: #FFFFFF;
+    font-size: 16px;
+    line-height: 1;
+}
+.week-goal-step:disabled {
+    opacity: 0.35;
+}
+.week-goal-draft {
+    min-width: 54px;
+    color: #FFFFFF;
+    font-family: var(--font-num);
+    font-size: 15px;
+    font-variant-numeric: tabular-nums;
+    text-align: center;
+}
+.week-goal-save {
+    margin-left: auto;
+    padding: 6px 14px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--orange);
+    color: #FFFFFF;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* 「両方」のときの区切りと見出し */
+.week-divider {
+    margin: 16px 0;
+    border: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+    opacity: 1;
+}
+.week-section-title {
+    margin: 0 0 8px;
+    color: var(--chart);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+/* カードの上の見出し「練習のまとめ」（NEXT PR のページ。オレンジの小見出し） */
+.week-card-heading {
+    margin: 6px 0 8px; /* 上の目標カードとの間を詰める */
+    color: var(--orange-deep);
+    font-size: 13px;
+    font-weight: 700;
+}

@@ -1,0 +1,272 @@
+@charset "utf-8";
+
+/* ==========================================================================
+   マイグループの画面（includes/group_modal.php）。動きは js/group_modal.js
+   ========================================================================== */
+
+.group-item-icon svg {
+    width: 18px;
+    height: 18px;
+}
+/* アイコンを変更する画面の、選んだ写真の確認 */
+.group-icon-preview {
+    display: flex;
+    justify-content: center;
+    margin: 4px 0 14px;
+}
+.group-icon-preview img,
+.group-icon-preview span {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+}
+.group-icon-preview img {
+    object-fit: cover;
+    border: 1px solid var(--color-border);
+}
+.group-icon-preview span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-pill-bg);
+    color: var(--color-text-secondary);
+}
+.group-icon-preview span svg {
+    width: 42px;
+    height: 42px;
+}
+.group-icon-remove {
+    border: 0;
+    padding: 0;
+    background: transparent;
+    color: var(--coral);
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+/* マイグループ画面 */
+.group-modal .modal-title {
+    font-size: 1.05rem;
+    font-weight: 800;
+}
+.group-top-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-bottom: 14px;
+}
+/* 未ログインの人向けのマイグループ（機能の紹介） */
+.group-guest-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    text-align: center;
+}
+.group-guest-hero-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--color-accent-bg);
+    color: var(--color-accent);
+}
+.group-guest-hero-icon svg {
+    width: 24px;
+    height: 24px;
+}
+.group-guest-lead {
+    margin: 0;
+    font-weight: 800;
+}
+.group-guest-points {
+    margin: 0 0 16px;
+    padding: 12px 14px 12px 32px;
+    border-radius: var(--card-radius);
+    background: var(--color-page-bg);
+    color: var(--color-text-primary);
+    font-size: 0.85rem;
+}
+.group-guest-points li + li {
+    margin-top: 4px;
+}
+.group-guest-login-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin: -4px 0 12px;
+    color: var(--color-text-secondary);
+    font-size: 0.8rem;
+}
+.group-guest-login-note svg {
+    width: 14px;
+    height: 14px;
+}
+.group-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.group-item {
+    padding: 12px 0;
+}
+.group-item + .group-item {
+    border-top: 1px solid var(--color-border);
+}
+.group-item-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.group-item-icon {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--color-pill-bg);
+    color: var(--color-text-secondary);
+}
+.group-item-text {
+    flex: 1;
+    min-width: 0;
+}
+.group-item-name {
+    display: block;
+    font-weight: 700;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.group-item-sub {
+    display: block;
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+}
+.group-item-pending {
+    display: inline-block;
+    margin-top: 2px;
+    padding: 1px 8px;
+    border-radius: 999px;
+    background: var(--color-pill-bg);
+    color: var(--color-text-secondary);
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+.group-more-btn {
+    width: 32px;
+    height: 32px;
+    border: 0;
+    border-radius: var(--button-radius);
+    background: transparent;
+    color: var(--color-text-secondary);
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+.group-more-btn:hover {
+    background: var(--color-page-bg);
+}
+.group-menu {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 8px;
+}
+/* 削除の申請は取り返しがつかないので、ほかのボタンから少し離して誤タップを防ぐ */
+.group-menu [data-group-delete] {
+    margin-left: 16px;
+}
+.btn-group-danger {
+    border: 1px solid var(--coral);
+    color: var(--coral);
+    background: transparent;
+}
+.btn-group-danger:hover {
+    background: var(--coral);
+    color: #FFFFFF;
+}
+.group-empty {
+    margin: 12px 0;
+    color: var(--color-text-secondary);
+    font-size: 0.88rem;
+    text-align: center;
+}
+.group-guide-link {
+    display: block;
+    margin-top: 12px;
+    color: var(--color-text-secondary);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-align: right;
+    text-decoration: none;
+}
+.group-guide-link:hover {
+    color: var(--color-text-primary);
+}
+.group-pane-error {
+    min-height: 1.2em;
+    margin: 6px 0 0;
+    color: var(--coral);
+    font-size: 0.8rem;
+}
+.group-pane-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 16px;
+}
+.group-code {
+    margin: 12px 0 4px;
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: 0.3em;
+    text-align: center;
+}
+.group-note {
+    color: var(--color-text-secondary);
+    font-size: 0.8rem;
+    line-height: 1.6;
+}
+.group-invite-tabs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 3px;
+    border-radius: 999px;
+    background: var(--color-tab-bg);
+    margin: 8px 0 4px;
+}
+.group-invite-tab {
+    border: 0;
+    border-radius: 999px;
+    padding: 6px 0;
+    background: transparent;
+    color: var(--color-text-secondary);
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+.group-invite-tab[aria-selected="true"] {
+    background: var(--color-accent);
+    color: var(--color-accent-text);
+}
+.group-link-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 8px;
+}
+.btn-line {
+    background: #06C755;
+    border-color: #06C755;
+    color: #FFFFFF;
+}
+.btn-line:hover {
+    background: #05B04C;
+    border-color: #05B04C;
+    color: #FFFFFF;
+}

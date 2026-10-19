@@ -1,0 +1,179 @@
+@charset "utf-8";
+
+/* ==========================================================================
+   走行距離のランキング（includes/distance_ranking.php）。みんなのページ・クラブ画面で共通
+   ========================================================================== */
+
+.ranking-seg {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 12px;
+    padding: 4px;
+    border-radius: 999px;
+    background: var(--beige2);
+}
+.ranking-seg-btn {
+    flex: 1 1 0;
+    padding: 8px 4px;
+    border-radius: 999px;
+    color: var(--sub);
+    font-size: 13px;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+}
+.ranking-seg-btn span {
+    margin-left: 2px;
+    font-family: var(--font-num);
+    font-size: 11px;
+}
+.ranking-seg-btn.is-active {
+    background: var(--surface);
+    box-shadow: var(--shadow-float);
+    color: var(--navy);
+}
+.ranking-month-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-size: 13px;
+}
+.ranking-month-nav a {
+    color: var(--orange-deep);
+    font-weight: 700;
+    text-decoration: none;
+}
+.ranking-month-nav strong {
+    color: var(--navy);
+}
+
+/* YOUR RANK: 薄いオレンジのカード。右に大きな順位 */
+.ranking-me {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+    padding: 18px;
+    border-radius: var(--card-radius);
+    background: var(--orange-soft);
+}
+.ranking-me p {
+    margin: 0;
+}
+.ranking-me-eyebrow {
+    margin-bottom: 4px !important;
+    color: var(--orange-deep);
+    font-family: var(--font-num);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+}
+.ranking-me-text {
+    color: var(--navy);
+    font-size: 14px;
+    font-weight: 900;
+}
+.ranking-me-rank {
+    flex-shrink: 0;
+    color: var(--navy);
+    font-size: 14px;
+    font-weight: 700;
+    text-align: right;
+}
+.ranking-me-rank strong {
+    color: var(--orange-deep);
+    font-family: var(--font-num);
+    font-size: 40px;
+    font-weight: 900;
+    line-height: 1;
+}
+.ranking-me-rank span {
+    display: block;
+    color: var(--sub);
+    font-size: 11px;
+}
+
+/* 順位表: 行は横線で区切る。上位3人と自分の順位はオレンジ、自分の行は薄いオレンジ */
+.ranking-list {
+    margin: 0;
+    padding: 4px 16px;
+    border: 1px solid var(--line);
+    border-radius: var(--card-radius);
+    background: var(--surface);
+    list-style: none;
+}
+.ranking-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+}
+.ranking-row + .ranking-row {
+    border-top: 1px solid var(--line);
+}
+.ranking-row.is-me {
+    margin: 0 -10px;
+    padding: 12px 10px;
+    border-radius: 12px;
+    background: var(--orange-soft);
+}
+.ranking-rank {
+    flex-shrink: 0;
+    width: 30px;
+    color: var(--sub);
+    font-family: var(--font-num);
+    font-size: 18px;
+    font-weight: 800;
+}
+.ranking-rank.is-top {
+    color: var(--orange-deep);
+}
+.ranking-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--wis-soft);
+    color: var(--wis);
+    font-size: 13px;
+    font-weight: 700;
+    object-fit: cover;
+}
+.ranking-row.is-me .ranking-avatar {
+    background: var(--wis);
+    color: #FFFFFF;
+}
+.ranking-name {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    color: var(--navy);
+    font-size: 14px;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.ranking-km {
+    flex-shrink: 0;
+    color: var(--navy);
+    font-family: var(--font-num);
+    font-size: 16px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+}
+.ranking-km small {
+    margin-left: 2px;
+    color: var(--sub);
+    font-size: 11px;
+}
+.ranking-empty,
+.ranking-note {
+    margin: 10px 0 0;
+    color: var(--sub);
+    font-size: 12px;
+}

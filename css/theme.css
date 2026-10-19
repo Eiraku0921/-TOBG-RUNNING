@@ -1,0 +1,225 @@
+@charset "utf-8";
+
+/* ==========================================================================
+   TOBG デザイントークン
+   各ページの <style> では色を直接書かず、ここの変数を var() で参照する。
+
+   値は「TOBG-RUNNING 実装仕様書（Claude用・デザイン込み）2026-10-08」のとおり。
+   配色は ネイビー × オレンジ × ベージュ。オレンジは押す所と注目させる数字だけに使う。
+   ダークモードには対応しない（ベージュ地の明るい画面で固定）。
+   ========================================================================== */
+:root {
+    /* ---- 仕様書のカラートークン（名前・値とも仕様書のまま） ---- */
+    --bg: #EDE6DA;          /* PC表示時のページ外側の地 */
+    --app: #F4EEE4;         /* アプリ画面の地（ベージュ） */
+    --surface: #FFFDF9;     /* カード、シート、入力欄の中 */
+    --beige2: #EAE2D5;      /* 切り替えスイッチの地、補足カード、読み取り専用欄 */
+    --line: #E0D7C9;        /* 罫線、カードの枠 */
+    --navy: #1F2A44;        /* 本文の文字、濃いカードの地、選択中チップ */
+    --navy2: #2E3D62;       /* 濃いカードのグラデーション上側 */
+    --sub: #6B7184;         /* 補足の文字、未選択タブ */
+    --orange: #FF7A1A;      /* 主ボタン、バー、今日の強調 */
+    --orange-deep: #E8590C; /* 英字の小見出し、強調文字、NEXT PRの選択チップ・目標の数字 */
+    --orange-soft: #FFE7D3; /* 薄いバッジ、自分の行のハイライト */
+    --wis: #7B6AB5;         /* 藤色。自分のアイコン、カレンダーの「大会」、会員区分バッジ */
+    --wis-soft: #E4DEF3;    /* 藤色の薄いバッジ */
+    --coral: #E5533A;       /* 締切間近、削除、エラー、強度「高」 */
+    --np-ink: #2B2620;      /* NEXT PRの記録の数字、選択中の自己ベストボタン */
+    --chart: #FFB36B;       /* 濃いカード上の日別グラフの棒 */
+    --cal2: #FFC08F;        /* カレンダー強度「通常」、管理者グラフの棒 */
+    --dark-card: linear-gradient(160deg, var(--navy2), var(--navy)); /* 濃いカード（文字は白、補足 #C9CEDC） */
+    --dark-card-sub: #C9CEDC;
+    --shadow-float: 0 2px 8px rgba(31, 42, 68, .08);   /* 浮かせる要素だけ */
+    --shadow-popover: 0 16px 40px rgba(31, 42, 68, .18); /* お知らせの小窓 */
+
+    /* ---- 書体（Google Fonts。読み込みは各ページの <head>） ---- */
+    --font-jp: "Zen Kaku Gothic New", system-ui, -apple-system, "Hiragino Sans", "Yu Gothic UI", Meiryo, sans-serif;
+    --font-num: "Archivo", var(--font-jp);         /* 数字・英字の小見出し・ロゴ */
+    --font-np: "M PLUS Rounded 1c", var(--font-jp); /* NEXT PR の日本語 */
+    --font-np-num: "Outfit", var(--font-num);       /* NEXT PR の記録・目標の数字 */
+
+    /* ---- 各ページが使っている変数（仕様書のトークンにつなぐ） ---- */
+    /* 面 */
+    --color-page-bg: var(--app);
+    --color-card-bg: var(--surface);
+
+    /* 文字 */
+    --color-text-primary: var(--navy);
+    --color-text-secondary: var(--sub);
+    --color-text-muted: var(--sub); /* 仕様書の補足は1色（--sub）なので同じにする */
+
+    /* 罫線 */
+    --color-border: var(--line);
+
+    /* アクセント（押す所と注目させる数字にだけ使う） */
+    --color-accent: var(--orange);
+    --color-accent-text: #FFFFFF;
+    --color-accent-hover: var(--orange-deep); /* ホバー・押下時 */
+    --color-accent-bg: var(--orange-soft);
+    --color-pill-bg: var(--beige2);
+    --color-danger: var(--coral);
+
+    /* ヘッダー */
+    --color-header-bg: var(--beige2);
+
+    /* NEXT PR（種目タブ・進捗バー・自己ベスト/シーズンベストのバッジ） */
+    --color-tab-bg: #F4F1EA;
+    --color-progress-track: #F0EBE0;
+    --color-badge-pb-bg: #FDF0E3;
+    --color-badge-pb-text: #8A3E10;
+    --color-badge-sb-bg: #EAF3DE;
+    --color-badge-sb-text: #3B6D2B;
+
+    /* 本文の書体。ページ側では font-family を書かず、数字・NEXT PR だけ上の --font-num などを使う */
+    --font-base: var(--font-jp);
+    --bs-body-font-family: var(--font-base);
+
+    /* ページの横幅。ヘッダーと全ページの本文がこの幅を使うので、ページを移っても端がずれない */
+    --content-max-width: 1180px;
+    --page-gutter: 16px;
+
+    /* 形（仕様書: カード20px、入力欄12px、ボタン・チップは丸） */
+    --card-radius: 20px;
+    --card-shadow: 0 0 0 1px var(--line); /* カードの枠（1px --line）。影ではなく枠線として描く */
+    --button-radius: 999px;
+    --input-radius: 12px;
+
+    /* --------------------------------------------------------------
+       旧トークン（案I）。ヘッダー・ホーム・マイページ・管理者画面を
+       新ルールへ移したら削除する。新しいコードでは使わないこと。
+       -------------------------------------------------------------- */
+    --color-header: var(--navy);
+    --color-header-text: #FFFFFF;
+    --color-badge-bg: #FFFFFF;
+    --color-badge-text: var(--navy);
+    --color-hero-from: #FFF4EA;
+    --color-hero-to: #FFDCB8;
+    --color-hero-text: #2E4057;
+    --color-hero-sub: #7A6650;
+    --color-cell-border-filled: #F7E3C8;
+    --color-today-border: var(--navy);
+    --color-today-bg: #EEF1F5;
+}
+
+body {
+    background-color: var(--color-page-bg);
+    font-family: var(--font-base);
+    color: var(--color-text-primary);
+    --bs-body-color: var(--color-text-primary);
+    --bs-border-color: var(--color-border);
+}
+
+/* 数字が縦に並ぶ所（表・カレンダー・記録）は桁をそろえる */
+table,
+.tabular-nums {
+    font-variant-numeric: tabular-nums;
+}
+
+/* 入力欄: 角丸12px・枠 --line（仕様書の入力欄） */
+.form-control,
+.form-select {
+    border-color: var(--color-border);
+    border-radius: var(--input-radius);
+}
+
+/* 動きを減らす設定の人には、アニメーションを止める */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Bootstrap のカードも角丸をそろえる */
+.card {
+    --bs-card-border-radius: var(--card-radius);
+    --bs-card-inner-border-radius: calc(var(--card-radius) - 1px);
+    --bs-card-bg: var(--color-card-bg);
+}
+
+/* 主要アクション: オレンジ地・白文字・丸・枠なし */
+.btn-primary {
+    --bs-btn-bg: var(--color-accent);
+    --bs-btn-border-color: transparent;
+    --bs-btn-color: var(--color-accent-text);
+    --bs-btn-hover-bg: var(--color-accent-hover);
+    --bs-btn-hover-border-color: transparent;
+    --bs-btn-hover-color: var(--color-accent-text);
+    --bs-btn-active-bg: var(--color-accent-hover);
+    --bs-btn-active-border-color: transparent;
+    --bs-btn-active-color: var(--color-accent-text);
+    --bs-btn-disabled-bg: var(--color-accent);
+    --bs-btn-disabled-border-color: transparent;
+    --bs-btn-disabled-color: var(--color-accent-text);
+    --bs-btn-focus-shadow-rgb: 255, 122, 26;
+    --bs-btn-border-radius: var(--button-radius);
+    font-weight: 700;
+}
+
+/* 補助アクション（前月/次月など）: 透明背景・薄い罫線・補足色の文字 */
+.btn-outline-secondary {
+    --bs-btn-color: var(--color-text-secondary);
+    --bs-btn-bg: transparent;
+    --bs-btn-border-color: var(--color-border);
+    --bs-btn-hover-bg: var(--color-page-bg);
+    --bs-btn-hover-border-color: var(--color-border);
+    --bs-btn-hover-color: var(--color-text-primary);
+    --bs-btn-active-bg: var(--color-page-bg);
+    --bs-btn-active-border-color: var(--color-border);
+    --bs-btn-active-color: var(--color-text-primary);
+    --bs-btn-focus-shadow-rgb: 255, 122, 26;
+    --bs-btn-border-radius: var(--button-radius);
+}
+
+/* 副ボタン（旧: 紺の枠線）。移行が終わった画面では使わない */
+.btn-outline-primary {
+    --bs-btn-color: var(--color-header);
+    --bs-btn-border-color: var(--color-header);
+    --bs-btn-hover-bg: var(--color-header);
+    --bs-btn-hover-border-color: var(--color-header);
+    --bs-btn-hover-color: var(--color-header-text);
+    --bs-btn-active-bg: var(--color-header);
+    --bs-btn-active-border-color: var(--color-header);
+    --bs-btn-active-color: var(--color-header-text);
+    --bs-btn-focus-shadow-rgb: 31, 42, 68;
+}
+
+/* 入力欄を選択したときの枠をアクセント色に（Bootstrap 既定の青を使わない） */
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 0.2rem rgba(255, 122, 26, 0.2);
+}
+
+/* チェックボックス・ラジオ・スイッチのオンもアクセント色に */
+.form-check-input:checked {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+/* 表の見出し行（旧: 紺）。管理者画面の移行時に見直す */
+.table-dark {
+    --bs-table-bg: var(--color-header);
+    --bs-table-color: var(--color-header-text);
+    --bs-table-border-color: var(--navy2);
+    --bs-table-striped-bg: var(--navy2);
+    --bs-table-hover-bg: var(--navy2);
+}
+
+/* --------------------------------------------------------------
+   新ルールへ移行済みの画面で使う共通部品
+   -------------------------------------------------------------- */
+
+/* 画面の文字色・リンク色を新ルールにする（body に付ける） */
+.theme-v2 {
+    color: var(--color-text-primary);
+    --bs-body-color: var(--color-text-primary);
+    --bs-secondary-color: var(--color-text-secondary);
+    --bs-link-color-rgb: 31, 42, 68;
+    --bs-link-hover-color-rgb: 255, 122, 26;
+}

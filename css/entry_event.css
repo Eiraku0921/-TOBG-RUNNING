@@ -1,0 +1,79 @@
+/* 試合申し込みの種目と応募記録（includes/entry_event_fields.php） */
+.entry-events {
+    display: grid;
+    gap: 12px;
+}
+.entry-event-slot {
+    min-width: 0;
+    margin: 0;
+    padding: 14px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--surface);
+}
+.entry-event-title {
+    float: none;
+    width: auto;
+    margin: 0 0 8px;
+    color: var(--navy);
+    font-size: 15px;
+    font-weight: 900;
+}
+.entry-event-badge {
+    margin-left: 6px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--app);
+    color: var(--sub);
+    font-size: 11px;
+    font-weight: 700;
+    vertical-align: 2px;
+}
+.entry-event-badge.is-required {
+    background: var(--orange-soft);
+    color: var(--orange-deep);
+}
+/* 区分 → 種目 を横に並べる */
+.entry-event-pick {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    gap: 8px;
+}
+.entry-record {
+    margin-top: 12px;
+}
+.entry-record-label {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--navy);
+    font-size: 13px;
+    font-weight: 800;
+}
+.entry-record-label small {
+    color: var(--sub);
+    font-weight: 500;
+}
+/* 「11 . 23 秒」「4 分 28 . 19 秒」のように、プルダウンと単位を1行に並べる */
+.entry-record-parts {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 6px;
+}
+.entry-record-select {
+    width: auto;
+    min-width: 68px;
+    font-family: var(--font-num);
+    font-weight: 700;
+}
+.entry-record-unit {
+    color: var(--sub);
+    font-size: 14px;
+    font-weight: 700;
+}
+.entry-record-hint {
+    margin: 6px 0 0;
+    color: var(--orange-deep);
+    font-size: 12px;
+    font-weight: 700;
+}

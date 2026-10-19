@@ -1,0 +1,356 @@
+/* マイページ上部: プロフィール、紺の数字カード、練習日記カレンダー（mypage/front_login.php） */
+
+/* ---- プロフィール ---- */
+.mp-eyebrow {
+    margin: 0 0 6px;
+    font-family: var(--font-num);
+    font-size: .8rem;
+    font-weight: 800;
+    letter-spacing: .08em;
+    color: var(--orange-deep);
+}
+.mp-profile {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 20px;
+}
+.mp-avatar {
+    position: relative;
+    flex-shrink: 0;
+    width: 76px;
+    height: 76px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: var(--wis);
+    cursor: pointer;
+}
+.mp-avatar:focus-visible {
+    outline: 3px solid var(--orange);
+    outline-offset: 2px;
+}
+.mp-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--surface);
+}
+.mp-avatar-initial {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    font-family: var(--font-num);
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #FFFFFF;
+}
+.mp-avatar-camera {
+    position: absolute;
+    right: -2px;
+    bottom: -2px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--navy);
+    color: #FFFFFF;
+    border: 2px solid var(--app);
+}
+.mp-profile-text {
+    min-width: 0;
+}
+.mp-name {
+    margin: 0;
+    font-size: 1.6rem;
+    font-weight: 900;
+    line-height: 1.2;
+    color: var(--navy);
+    overflow-wrap: anywhere;
+}
+.mp-club {
+    margin: 4px 0 8px;
+    font-size: .82rem;
+    color: var(--sub);
+}
+.mp-role {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 999px;
+    background: var(--wis-soft);
+    color: var(--wis);
+    font-size: .82rem;
+    font-weight: 700;
+}
+
+/* ---- 紺の数字カード（3つを縦線で区切る） ---- */
+.mp-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-bottom: 20px;
+    padding: 16px 4px;
+    border-radius: var(--card-radius);
+    background: var(--dark-card);
+    color: #FFFFFF;
+}
+.mp-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    padding: 0 14px;
+}
+.mp-stat + .mp-stat {
+    border-left: 1px solid rgba(255, 255, 255, .18);
+}
+.mp-stat-value {
+    font-family: var(--font-num);
+    font-size: 1.6rem;
+    font-weight: 800;
+    line-height: 1.15;
+}
+.mp-stat-label {
+    font-size: .74rem;
+    font-weight: 700;
+    color: var(--dark-card-sub);
+}
+
+/* ---- 練習日記カレンダー ---- */
+.mp-cal {
+    margin-bottom: 24px;
+    padding: 18px 16px 16px;
+    border-radius: var(--card-radius);
+    background: var(--surface);
+    box-shadow: var(--card-shadow);
+}
+.mp-cal-head {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    margin-bottom: 14px;
+}
+.mp-cal-title {
+    margin: 0;
+    font-size: .9rem;
+    font-weight: 800;
+    color: var(--orange-deep);
+}
+.mp-cal-nav {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-left: auto;
+}
+.mp-cal-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0 0 2px;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    background: var(--surface);
+    color: var(--navy);
+    font-size: 1.1rem;
+    line-height: 1;
+}
+.mp-cal-arrow:disabled {
+    color: var(--line);
+    cursor: default;
+}
+.mp-cal-month {
+    min-width: 72px;
+    text-align: center;
+    font-family: var(--font-num);
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--navy);
+}
+.mp-cal-weekdays,
+.mp-cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 6px;
+}
+.mp-cal-weekdays {
+    margin-bottom: 8px;
+    text-align: center;
+    font-size: .74rem;
+    font-weight: 700;
+    color: var(--sub);
+}
+.mp-cal-weekdays .is-sun {
+    color: var(--coral);
+}
+
+/* 日付のマス（日記のない日は薄い枠、先の日は文字を薄く、日記のある日は強度の色） */
+.mp-cal-cell {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--app);
+    color: var(--sub);
+    font-family: var(--font-num);
+    font-size: .85rem;
+    font-weight: 800;
+}
+.mp-cal-cell.is-blank {
+    border-color: transparent;
+    background: transparent;
+}
+.mp-cal-cell.is-future {
+    background: transparent;
+    color: var(--line);
+}
+button.mp-cal-cell {
+    border-color: transparent;
+    cursor: pointer;
+    transition: filter .15s ease;
+}
+button.mp-cal-cell:hover {
+    filter: brightness(.96);
+}
+button.mp-cal-cell:focus-visible {
+    outline: 3px solid var(--navy);
+    outline-offset: 2px;
+}
+.mp-cal-cell.lv-light {
+    background: var(--orange-soft);
+    color: var(--navy);
+}
+.mp-cal-cell.lv-normal {
+    background: var(--cal2);
+    color: var(--navy);
+}
+/* 筋トレ（練習強度「ウエイト」）: 緑 */
+.mp-cal-cell.lv-weight {
+    background: #4FA383;
+    color: #FFFFFF;
+}
+.mp-cal-cell.lv-high {
+    background: var(--orange);
+    color: #FFFFFF;
+}
+.mp-cal-cell.lv-race {
+    background: var(--wis);
+    color: #FFFFFF;
+}
+/* 今日: 紺の枠と下の点 */
+.mp-cal-cell.is-today {
+    border: 2px solid var(--navy);
+    color: var(--navy);
+}
+.mp-cal-cell.is-today:not(button) {
+    background: var(--surface);
+}
+.mp-cal-cell.is-today::after {
+    content: "";
+    width: 4px;
+    height: 4px;
+    margin-top: 3px;
+    border-radius: 50%;
+    background: currentColor;
+}
+.mp-cal-badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    border-radius: 999px;
+    background: var(--navy);
+    color: #FFFFFF;
+    font-size: .66rem;
+    font-weight: 800;
+}
+
+.mp-cal-legend {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    margin-top: 14px;
+    font-size: .74rem;
+    color: var(--sub);
+}
+.mp-cal-legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+.mp-cal-legend i {
+    width: 12px;
+    height: 12px;
+    border-radius: 4px;
+}
+.mp-cal-legend .lv-light { background: var(--orange-soft); }
+.mp-cal-legend .lv-normal { background: var(--cal2); }
+.mp-cal-legend .lv-weight { background: #4FA383; }
+.mp-cal-legend .lv-high { background: var(--orange); }
+.mp-cal-legend .lv-race { background: var(--wis); }
+
+/* 1日に2件以上あるときの、その日の日記の一覧（詳細の窓の中） */
+.mp-day-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.mp-day-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--surface);
+    color: var(--navy);
+    text-align: left;
+}
+.mp-day-item:hover {
+    background: var(--app);
+}
+.mp-day-item .diary-detail-intensity {
+    flex-shrink: 0;
+    margin: 0;
+}
+.mp-day-item-menu {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 700;
+}
+
+/* PC: カレンダーのマスが大きくなりすぎないよう、正方形をやめて高さを決める */
+@media (min-width: 768px) {
+    .mp-cal {
+        padding: 22px 24px 20px;
+    }
+    .mp-cal-cell {
+        aspect-ratio: auto;
+        height: 64px;
+        font-size: .95rem;
+    }
+    .mp-stat-value {
+        font-size: 1.9rem;
+    }
+}

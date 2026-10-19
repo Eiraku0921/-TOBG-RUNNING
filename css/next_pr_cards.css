@@ -1,0 +1,285 @@
+/* NEXT PR の種目タブ・自己ベスト・目標カード（mypage/next_pr.php とホームで共通） */
+
+/* 書体（仕様書）: NEXT PR のページ全体とホームの NP 欄は丸ゴシック、記録・目標の数字は Outfit */
+.next-pr-page,
+.home-next-pr {
+    font-family: var(--font-np);
+}
+.pr-card {
+    position: relative;
+    background: var(--color-card-bg);
+    border-radius: var(--card-radius);
+    padding: 20px 24px;
+    margin-bottom: 10px;
+}
+
+/* 種目タブ（横にスクロールできる1列） */
+.event-tabs {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    margin-bottom: 10px;
+    scrollbar-width: thin;
+}
+/* 種目チップ（仕様書）: 未選択は --beige2 の地、選択中は --orange-deep の地＋白。
+   未選択はページの地（ベージュ）に溶けないよう、枠線も付ける */
+.event-tab {
+    flex-shrink: 0;
+    padding: 6px 14px;
+    border: 1px solid color-mix(in srgb, var(--sub) 35%, transparent);
+    border-radius: 999px;
+    background: var(--beige2);
+    color: var(--navy);
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+}
+.event-tab:hover {
+    color: var(--navy);
+    border-color: var(--sub);
+}
+.event-tab.is-active {
+    border-color: var(--orange-deep);
+    background: var(--orange-deep);
+    color: #FFFFFF;
+}
+.event-add-btn {
+    flex-shrink: 0;
+    padding: 6px 12px;
+    border: 1px dashed var(--color-text-muted);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--color-text-secondary);
+    font-size: 0.85rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+.event-add-btn:hover {
+    color: var(--color-text-primary);
+    border-color: var(--color-text-secondary);
+}
+
+/* 自己ベスト / シーズンベスト */
+.best-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+/* 自己ベスト / シーズンベスト（仕様書）: 小さい丸ボタン（上下3px 左右10px、10.5px）。選択中は --np-ink 地 */
+.best-tabs {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+.best-tab {
+    padding: 3px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+    font-size: 10.5px;
+    font-weight: 700;
+    line-height: 1.4;
+    text-decoration: none;
+}
+.best-tab:hover {
+    color: var(--color-text-primary);
+}
+.best-tab.is-active {
+    background: var(--np-ink);
+    border-color: var(--np-ink);
+    color: var(--color-card-bg);
+}
+.season-select {
+    width: auto;
+}
+.best-value {
+    margin: 18px 0 4px;
+    color: var(--np-ink);
+    font-family: var(--font-np-num);
+    font-size: 3rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.035em;
+    line-height: 1;
+}
+.best-value-unit {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-left: 4px;
+}
+/* 今年の初戦の前に、去年のシーズンベストを出しているときの添え書き */
+.best-fallback-note {
+    display: block;
+    margin-top: 2px;
+    color: var(--color-text-muted);
+    font-size: 0.78rem;
+}
+.best-meta {
+    color: var(--color-text-secondary);
+    font-size: 0.85rem;
+}
+.pr-empty {
+    margin: 16px 0 0;
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.8;
+}
+
+/* 目標カード */
+.goal-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 10px;
+}
+.goal-grid .pr-card {
+    margin-bottom: 0;
+}
+.goal-label {
+    padding-right: 36px;
+    color: var(--color-text-secondary);
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+.goal-edit-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: var(--button-radius);
+    background: transparent;
+    color: var(--color-text-secondary);
+}
+.goal-edit-btn:hover {
+    background: var(--color-tab-bg);
+    color: var(--color-text-primary);
+}
+.goal-value {
+    margin: 6px 0 10px;
+    color: var(--orange-deep);
+    font-family: var(--font-np-num);
+    font-size: 1.6rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.1;
+}
+.goal-progress {
+    height: 12px;
+    border-radius: 999px;
+    background: var(--color-progress-track);
+    overflow: hidden;
+}
+.goal-progress-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: var(--color-accent);
+}
+.goal-basis {
+    margin-top: 6px;
+    color: var(--color-text-muted);
+    font-size: 0.72rem;
+    line-height: 1.5;
+}
+.goal-empty {
+    margin: 6px 0 0;
+    color: var(--color-text-secondary);
+    font-size: 0.85rem;
+}
+
+/* 自己ベスト欄の右上（鉛筆・記録を追加） */
+.best-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+/* 目標カードの鉛筆と同じ見た目で、絶対配置はしない */
+.goal-edit-btn.best-edit-btn {
+    position: static;
+}
+/* 種目を追加モーダル（陸上競技 / 筋トレ の切り替えと種目一覧） */
+.segment {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 3px;
+    border-radius: 999px;
+    background: var(--color-tab-bg);
+    margin-bottom: 14px;
+}
+.segment-btn {
+    border: 0;
+    border-radius: 999px;
+    padding: 7px 0;
+    background: transparent;
+    color: var(--color-text-secondary);
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+.segment-btn[aria-selected="true"] {
+    background: var(--color-card-bg);
+    color: var(--color-text-primary);
+    box-shadow: 0 1px 3px rgba(43, 39, 35, 0.12);
+}
+.catalog-group + .catalog-group {
+    margin-top: 14px;
+}
+.catalog-group-title {
+    margin: 0 0 6px;
+    color: var(--color-text-secondary);
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+.catalog-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+.catalog-item {
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    padding: 6px 12px;
+    background: var(--color-card-bg);
+    color: var(--color-text-primary);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+.catalog-item:hover {
+    border-color: var(--color-accent);
+    color: var(--color-text-primary);
+}
+.catalog-item.is-added {
+    background: var(--color-accent-bg);
+    border-color: var(--color-accent-bg);
+}
+.catalog-check {
+    color: var(--color-accent);
+    margin-right: 2px;
+}
+
+@media (max-width: 576px) {
+    .pr-card {
+        padding: 16px 14px;
+    }
+    .best-value {
+        font-size: 2.4rem;
+    }
+    .goal-value {
+        font-size: 1.3rem;
+    }
+}
+@media (max-width: 400px) {
+    .goal-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}

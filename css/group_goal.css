@@ -1,0 +1,264 @@
+@charset "utf-8";
+
+/* ==========================================================================
+   みんなの目標（includes/group_goal.php）。みんなのページでグループを選んだとき
+   ========================================================================== */
+
+.goal-team {
+    margin-bottom: 14px;
+    padding: 18px;
+    border-radius: var(--card-radius);
+    background: var(--dark-card);
+    color: #FFFFFF;
+}
+.goal-team p {
+    margin: 0;
+}
+.goal-eyebrow {
+    color: var(--chart);
+    font-family: var(--font-num);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+}
+.goal-lead {
+    margin-top: 8px !important;
+    font-size: 15px;
+    font-weight: 900;
+}
+.goal-team-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin: 6px 0 10px;
+}
+.goal-team-total strong {
+    font-family: var(--font-num);
+    font-size: 36px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+}
+.goal-team-total span {
+    color: var(--dark-card-sub);
+    font-size: 13px;
+}
+.goal-team-percent {
+    color: var(--chart);
+    font-family: var(--font-num);
+    font-size: 20px;
+    font-weight: 800;
+}
+/* バー: 高さ8px。濃いカードの上は地が白18%、中身はオレンジ */
+.goal-bar {
+    height: 8px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.18);
+}
+.goal-bar span {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background: var(--orange);
+}
+.goal-bar.is-light {
+    height: 6px;
+    background: var(--beige2);
+}
+.goal-team-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: 14px;
+}
+.goal-team-stats p {
+    padding: 0 10px;
+}
+.goal-team-stats p:first-child {
+    padding-left: 0;
+}
+.goal-team-stats p + p {
+    border-left: 1px solid rgba(255, 255, 255, 0.18);
+}
+.goal-team-stats strong {
+    display: block;
+    font-family: var(--font-num);
+    font-size: 18px;
+    font-weight: 800;
+}
+.goal-team-stats span {
+    color: var(--dark-card-sub);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+/* YOUR PLEDGE */
+.goal-pledge {
+    margin-bottom: 18px;
+    padding: 18px;
+    border: 1px solid var(--line);
+    border-radius: var(--card-radius);
+    background: var(--surface);
+}
+.goal-pledge p {
+    margin: 0;
+}
+.goal-pledge-eyebrow {
+    color: var(--orange-deep);
+    font-family: var(--font-num);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+}
+.goal-pledge-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin: 10px 0;
+    color: var(--navy);
+    font-size: 14px;
+    font-weight: 700;
+}
+.goal-pledge-badge {
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: var(--orange-soft);
+    color: var(--orange-deep);
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+.goal-stepper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin: 6px 0 14px;
+}
+.goal-step {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    background: var(--surface);
+    color: var(--navy);
+    font-size: 18px;
+    line-height: 1;
+}
+.goal-step:disabled {
+    opacity: 0.35;
+}
+.goal-step-value {
+    color: var(--sub);
+    font-size: 13px;
+}
+.goal-step-value strong {
+    color: var(--navy);
+    font-family: var(--font-num);
+    font-size: 32px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+}
+.goal-submit {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--orange);
+    color: #FFFFFF;
+    font-size: 15px;
+    font-weight: 700;
+}
+.goal-submit:disabled {
+    background: var(--orange-soft);
+    color: #FFFFFF;
+}
+.goal-pledge-note {
+    margin-top: 10px !important;
+    color: var(--sub);
+    font-size: 11px;
+    text-align: center;
+}
+
+/* MEMBERS / 達成率順 */
+.goal-members-title {
+    margin: 0 0 8px;
+    color: var(--orange-deep);
+    font-family: var(--font-num);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+}
+.goal-members-title span {
+    font-family: var(--font-base);
+    letter-spacing: 0;
+}
+.goal-members {
+    margin: 0;
+    padding: 4px 16px;
+    border: 1px solid var(--line);
+    border-radius: var(--card-radius);
+    background: var(--surface);
+    list-style: none;
+}
+.goal-member {
+    padding: 12px 0;
+}
+.goal-member + .goal-member {
+    border-top: 1px solid var(--line);
+}
+.goal-member-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+.goal-member-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--wis-soft);
+    color: var(--wis);
+    font-size: 12px;
+    font-weight: 700;
+    object-fit: cover;
+}
+.goal-member-name {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    color: var(--navy);
+    font-size: 14px;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.goal-member-km {
+    color: var(--sub);
+    font-size: 12px;
+}
+.goal-member-km strong {
+    color: var(--navy);
+    font-family: var(--font-num);
+    font-size: 16px;
+    font-weight: 800;
+}
+.goal-member.is-me .goal-bar span {
+    background: var(--wis);
+}
+.goal-member-percent {
+    margin: 4px 0 0;
+    color: var(--sub);
+    font-family: var(--font-num);
+    font-size: 11px;
+    text-align: right;
+}
+.goal-member-percent.is-none {
+    font-family: var(--font-base);
+}

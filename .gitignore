@@ -1,0 +1,5 @@
+# VS Code の SFTP 拡張の設定（FTP のパスワードが入っているので、GitHub に上げない）
+.vscode/sftp.json
+
+# データベースの接続情報（パスワードが入っているので、GitHub に上げない。見本は back/db_config.example.php）
+back/db_config.php

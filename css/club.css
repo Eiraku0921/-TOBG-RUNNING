@@ -1,0 +1,964 @@
+@charset "utf-8";
+
+/* ==========================================================================
+   クラブ画面（front/club.php と includes/club_*.php）
+   ========================================================================== */
+
+.club-wrap {
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+    padding: 10px var(--page-gutter) 24px;
+}
+.club-head {
+    margin: 4px 0 14px;
+}
+.club-eyebrow {
+    margin: 0 0 4px;
+    color: var(--orange-deep);
+    font-family: var(--font-num);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+}
+.club-title {
+    margin: 0;
+    color: var(--navy);
+    font-size: 26px;
+    font-weight: 900;
+    line-height: 1.3;
+}
+
+/* 切り替えスイッチ（仕様書の seg）: ベージュの丸い枠の中にボタンを均等に並べ、選択中は白地＋影 */
+.club-seg {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 18px;
+    padding: 4px;
+    border-radius: 999px;
+    background: var(--beige2);
+}
+.club-seg-btn {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 8px 4px;
+    border-radius: 999px;
+    color: var(--sub);
+    font-size: 13px;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+}
+.club-seg-btn.is-active {
+    background: var(--surface);
+    box-shadow: var(--shadow-float);
+    color: var(--navy);
+}
+/* 男子・女子の小さい切り替え */
+.club-mini-seg {
+    display: inline-flex;
+    gap: 4px;
+    margin-bottom: 10px;
+    padding: 3px;
+    border-radius: 999px;
+    background: var(--beige2);
+}
+.club-mini-seg-btn {
+    padding: 4px 16px;
+    border-radius: 999px;
+    color: var(--sub);
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+}
+.club-mini-seg-btn.is-active {
+    background: var(--surface);
+    box-shadow: var(--shadow-float);
+    color: var(--navy);
+}
+
+/* 種目チップ（1行で横にスクロール）。選択中は --navy 地＋白 */
+.club-chips {
+    display: flex;
+    gap: 6px;
+    margin: 0 calc(-1 * var(--page-gutter)) 12px;
+    padding: 0 var(--page-gutter) 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+.club-chips::-webkit-scrollbar {
+    display: none;
+}
+.club-chip {
+    flex-shrink: 0;
+    padding: 6px 14px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--navy);
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+}
+.club-chip.is-active {
+    border-color: var(--navy);
+    background: var(--navy);
+    color: #FFFFFF;
+}
+
+.club-empty,
+.club-info,
+.club-note {
+    margin: 0 0 14px;
+    color: var(--sub);
+    font-size: 13px;
+}
+.club-info {
+    padding: 12px 14px;
+    border-radius: 14px;
+    background: var(--beige2);
+}
+/* 右寄せの小さい枠線ボタン（「＋ 大会情報を追加」「＋ 合同練習を募集する」） */
+.club-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 12px;
+}
+.club-outline-btn {
+    padding: 8px 14px;
+    border: 1.5px solid var(--orange);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--orange-deep);
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+/* ---- 大会 ---- */
+.club-race {
+    margin-bottom: 14px;
+    padding: 16px;
+    border: 1px solid var(--line);
+    border-radius: var(--card-radius);
+    background: var(--surface);
+    scroll-margin-top: 96px; /* 通知などから #race-◯ で飛んできたとき、上の固定ヘッダーに隠れないように */
+}
+/* 通知・ホームのリンクで開いた大会（#race-◯）を枠で目立たせる */
+.club-race:target {
+    border-color: var(--orange);
+    box-shadow: 0 0 0 2px var(--orange-soft);
+}
+.club-race-top {
+    display: flex;
+    align-items: flex-start; /* 右の申込締切が2〜3行になるので上でそろえる */
+    justify-content: space-between;
+    gap: 8px;
+}
+.club-race-day {
+    color: var(--navy);
+    font-family: var(--font-num);
+    font-size: 18px;
+    font-weight: 800;
+}
+.club-race-weekday {
+    color: var(--sub);
+    font-size: 12px;
+    font-weight: 700;
+}
+/* 締切の札（3日以内は --coral 地＋白） */
+/* 申込締切（右上）: 小さな「申込締切」、大きな日付、その下に「あと13日」の丸い札。3日以内は赤 */
+.club-race-deadline {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+.club-race-deadline-label {
+    color: var(--sub);
+    font-size: 11px;
+    font-weight: 700;
+}
+.club-race-deadline-date {
+    color: var(--navy);
+    font-family: var(--font-num);
+    font-size: 20px;
+    font-weight: 900;
+    line-height: 1.1;
+}
+.club-race-deadline-date small {
+    font-family: var(--font-base);
+    font-size: 12px;
+    font-weight: 700;
+}
+.club-race-deadline-left {
+    margin-top: 2px;
+    padding: 3px 12px;
+    border-radius: 999px;
+    background: var(--orange-soft);
+    color: var(--orange-deep);
+    font-size: 13px;
+    font-weight: 800;
+}
+.club-race-deadline.is-soon .club-race-deadline-date {
+    color: var(--coral);
+}
+.club-race-deadline.is-soon .club-race-deadline-left {
+    background: var(--coral);
+    color: #FFFFFF;
+}
+/* 大会名の行。自分が追加した大会は右端に「⋯」（編集・申し込みを承認・削除を申請） */
+.club-race-name-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+}
+.club-race-menu-btn {
+    flex-shrink: 0;
+    width: 36px;
+    height: 32px;
+    margin-top: 2px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--navy);
+    font-size: 18px;
+    font-weight: 900;
+    line-height: 1;
+}
+.club-race-menu-btn:hover,
+.club-race-menu-btn[aria-expanded="true"] {
+    background: var(--app);
+}
+/* 申し込みを承認の窓: 1人1行（名前と種目、右に状態と保存） */
+.club-race-approve {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.club-race-approve li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+}
+.club-race-approve li:last-child {
+    border-bottom: 0;
+}
+.club-race-approve-who {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+.club-race-approve-events {
+    color: var(--sub);
+    font-size: 12px;
+}
+.club-race-approve-form {
+    display: flex;
+    gap: 6px;
+    margin: 0;
+}
+.club-race-approve-form .form-select {
+    width: auto;
+}
+.club-race-name {
+    margin: 6px 0 2px;
+    color: var(--navy);
+    font-size: 17px;
+    font-weight: 900;
+}
+.club-race-place,
+.club-race-details {
+    margin: 0 0 4px;
+    color: var(--sub);
+    font-size: 13px;
+}
+/* 「申し込む」と「大会概要を見る」を横に並べる（狭い画面では折り返す）。2つのボタンは同じ高さ */
+.club-race-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+}
+/* 申し込む: オレンジの丸いボタン（文字に合わせた幅） */
+.club-race-apply {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 28px;
+    border: 1.5px solid var(--orange);
+    border-radius: 999px;
+    background: var(--orange);
+    color: #FFFFFF;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+}
+.club-race-apply:hover {
+    border-color: var(--orange-deep);
+    background: var(--orange-deep);
+    color: #FFFFFF;
+}
+/* 大会概要（外のサイト）へのリンク: 白地・紺の枠の丸いボタン */
+.club-race-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border: 1.5px solid var(--navy);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--navy);
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+}
+.club-race-link:hover {
+    background: var(--navy);
+    color: #FFFFFF;
+}
+/* 申し込み済みの帯 */
+.club-race-mine {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 12px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    background: var(--orange-soft);
+    color: var(--orange-deep);
+    font-size: 13px;
+    font-weight: 700;
+}
+.club-race-cancel {
+    padding: 4px 12px;
+    border: 1px solid var(--coral);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--coral);
+    font-size: 12px;
+    font-weight: 700;
+}
+.club-race-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 12px;
+}
+.club-race-entries summary {
+    color: var(--navy);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    list-style: none;
+}
+.club-race-entries summary::-webkit-details-marker {
+    display: none;
+}
+.club-race-entries summary span {
+    margin-left: 4px;
+    color: var(--sub);
+    font-size: 10px;
+}
+.club-race-entries-empty {
+    margin: 8px 0 0;
+    color: var(--sub);
+    font-size: 12px;
+}
+.club-race-event {
+    margin: 10px 0 4px;
+    color: var(--orange-deep);
+    font-size: 12px;
+    font-weight: 700;
+}
+.club-race-people {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.club-race-people li {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-top: 1px solid var(--line);
+    font-size: 13px;
+}
+.club-race-people li.is-me {
+    font-weight: 700;
+}
+.club-race-record {
+    font-family: var(--font-num);
+    font-variant-numeric: tabular-nums;
+}
+
+/* ---- 歴代記録: 行は横線で区切る。上位3人の順位はオレンジ、自分の行は薄いオレンジ ---- */
+.club-record-list {
+    margin: 0;
+    padding: 4px 16px;
+    border: 1px solid var(--line);
+    border-radius: var(--card-radius);
+    background: var(--surface);
+    list-style: none;
+}
+.club-record {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+}
+.club-record + .club-record {
+    border-top: 1px solid var(--line);
+}
+.club-record.is-me {
+    margin: 0 -10px;
+    padding: 12px 10px;
+    border-radius: 12px;
+    background: var(--orange-soft);
+}
+.club-record.is-empty {
+    color: var(--sub);
+}
+.club-record-rank {
+    flex-shrink: 0;
+    width: 30px;
+    color: var(--sub);
+    font-family: var(--font-num);
+    font-size: 18px;
+    font-weight: 800;
+}
+.club-record-rank.is-top {
+    color: var(--orange-deep);
+}
+.club-record-main {
+    flex: 1;
+    min-width: 0;
+}
+.club-record-name {
+    display: block;
+    color: var(--navy);
+    font-size: 14px;
+    font-weight: 700;
+}
+.club-record.is-empty .club-record-name {
+    color: var(--sub);
+    font-weight: 500;
+}
+.club-record-badge {
+    margin-left: 6px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--orange-soft);
+    color: var(--orange-deep);
+    font-size: 10px;
+    font-weight: 700;
+}
+.club-record-meta {
+    display: block;
+    color: var(--sub);
+    font-size: 11px;
+}
+.club-record-time {
+    flex-shrink: 0;
+    color: var(--navy);
+    font-family: var(--font-num);
+    font-size: 16px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ---- 所属なし・未ログイン: チーム紹介 ---- */
+.club-team-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+.club-team-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    border: 1px solid var(--line);
+    border-radius: var(--card-radius);
+    background: var(--surface);
+    color: var(--navy);
+    text-decoration: none;
+}
+.club-team-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    color: #FFFFFF;
+    font-family: var(--font-num);
+    font-size: 18px;
+    font-weight: 900;
+}
+.club-team-mark.is-tobg {
+    background: var(--navy);
+}
+.club-team-mark.is-ogmrc {
+    background: var(--wis);
+}
+.club-team-text {
+    flex: 1;
+    min-width: 0;
+}
+.club-team-name {
+    display: block;
+    font-size: 15px;
+    font-weight: 900;
+}
+.club-team-sub {
+    display: block;
+    color: var(--sub);
+    font-size: 12px;
+}
+.club-team-arrow {
+    color: var(--sub);
+    font-size: 20px;
+}
+.club-join-btn {
+    display: block;
+    margin-bottom: 12px;
+    padding: 12px;
+    border-radius: 999px;
+    background: var(--orange);
+    color: #FFFFFF;
+    font-size: 15px;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+}
+.club-join-btn:hover {
+    background: var(--orange-deep);
+    color: #FFFFFF;
+}
+
+.club-section-title {
+    margin: 4px 0 10px;
+    color: var(--orange-deep);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+/* ---- 合同練習のカード（仕様書）: 写真は上端いっぱいの16:9、左に曜日・日付（日付28px）、右上に「詳細 ▼」 ---- */
+.club-session {
+    margin-bottom: 14px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: var(--card-radius);
+    background: var(--surface);
+}
+.club-session.is-canceled {
+    opacity: 0.7;
+}
+.club-session-photo {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+}
+.club-session-body {
+    position: relative;
+    padding: 14px 16px 16px;
+}
+.club-session-row {
+    display: flex;
+    gap: 14px;
+    padding-right: 64px; /* 右上の「詳細 ▼」の分 */
+}
+.club-session-date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    width: 44px;
+    color: var(--navy);
+    line-height: 1.1;
+}
+.club-session-weekday {
+    color: var(--sub);
+    font-family: var(--font-num);
+    font-size: 11px;
+    font-weight: 700;
+}
+.club-session-day {
+    font-family: var(--font-num);
+    font-size: 28px;
+    font-weight: 800;
+}
+.club-session-month {
+    color: var(--sub);
+    font-size: 11px;
+    font-weight: 700;
+}
+.club-session-main {
+    flex: 1;
+    min-width: 0;
+}
+.club-session-title {
+    display: block;
+    color: var(--navy);
+    font-size: 16px;
+    font-weight: 900;
+    line-height: 1.4;
+}
+.club-session-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin: 4px 0;
+}
+.club-badge {
+    padding: 2px 9px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+}
+.club-badge.is-official {
+    background: var(--orange-soft);
+    color: var(--orange-deep);
+}
+.club-badge.is-host {
+    background: var(--wis-soft);
+    color: var(--wis);
+}
+.club-badge.is-canceled {
+    background: var(--coral);
+    color: #FFFFFF;
+}
+.club-session-meta {
+    display: block;
+    color: var(--sub);
+    font-size: 13px;
+}
+.club-session-sub {
+    display: block;
+    margin-top: 2px;
+    color: var(--navy);
+    font-size: 12px;
+    font-weight: 700;
+}
+/* 「詳細 ▼」: カード右上の薄いオレンジの小さい丸。開くと下に詳細が出る */
+.club-session-detail > summary {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: var(--orange-soft);
+    color: var(--orange-deep);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    list-style: none;
+}
+.club-session-detail > summary::-webkit-details-marker {
+    display: none;
+}
+.club-session-detail > summary span {
+    font-size: 9px;
+}
+.club-session-detail[open] > summary span {
+    display: inline-block;
+    transform: rotate(180deg);
+}
+.club-session-dl {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    gap: 6px 10px;
+    margin: 12px 0 0;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+    font-size: 13px;
+}
+.club-session-dl dt {
+    color: var(--sub);
+    font-weight: 700;
+}
+.club-session-dl dd {
+    margin: 0;
+    color: var(--navy);
+}
+.club-session-host-title {
+    margin: 14px 0 6px;
+    color: var(--orange-deep);
+    font-size: 12px;
+    font-weight: 700;
+}
+.club-session-people {
+    margin: 0 0 10px;
+    padding: 0;
+    list-style: none;
+}
+.club-session-people li {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px 10px;
+    padding: 6px 0;
+    border-top: 1px solid var(--line);
+    font-size: 13px;
+}
+.club-session-person {
+    font-weight: 700;
+}
+.club-session-joined {
+    color: var(--sub);
+    font-family: var(--font-num);
+    font-size: 12px;
+}
+.club-session-comment {
+    flex-basis: 100%;
+    color: var(--sub);
+    font-size: 12px;
+}
+.club-session-message {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    margin-bottom: 4px;
+}
+.club-session-message label {
+    align-self: flex-start;
+    margin: 0;
+}
+/* カード下の横幅いっぱいのボタン（高さは低め: 上下10px・14px） */
+.club-session-btn {
+    display: block;
+    width: 100%;
+    margin-top: 14px;
+    padding: 10px;
+    border: 1.5px solid var(--orange);
+    border-radius: 999px;
+    background: var(--orange);
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+}
+.club-session-btn:hover {
+    color: #FFFFFF;
+}
+.club-session-btn.is-joined {
+    background: var(--surface);
+    color: var(--orange-deep);
+}
+.club-session-btn.is-danger {
+    border-color: var(--coral);
+    background: var(--surface);
+    color: var(--coral);
+}
+.club-session-btn.is-disabled {
+    border-color: var(--line);
+    background: var(--beige2);
+    color: var(--sub);
+}
+
+/* ---- OGMRC のメニュー ---- */
+.ogmrc .club-section-title {
+    margin-top: 18px;
+}
+.ogmrc .club-section-title:first-child {
+    margin-top: 0;
+}
+.ogmrc-note {
+    padding: 16px;
+    border: 1px solid var(--line);
+    border-radius: var(--card-radius);
+    background: var(--surface);
+}
+.ogmrc-note-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+.ogmrc-note-author {
+    color: var(--navy);
+    font-size: 14px;
+    font-weight: 900;
+}
+.ogmrc-note-date {
+    color: var(--sub);
+    font-family: var(--font-num);
+    font-size: 12px;
+}
+.ogmrc-new {
+    padding: 1px 8px;
+    border-radius: 999px;
+    background: var(--orange);
+    color: #FFFFFF;
+    font-family: var(--font-num);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+}
+.ogmrc-note-body {
+    margin: 0;
+    color: var(--navy);
+    font-size: 14px;
+    line-height: 1.7;
+}
+/* 次の練習日: 濃い紺のカード。4マスは2列×2段 */
+.ogmrc-next {
+    padding: 18px;
+    border-radius: var(--card-radius);
+    background: var(--dark-card);
+    color: #FFFFFF;
+}
+.ogmrc-next p {
+    margin: 0;
+}
+.ogmrc-next-date {
+    color: var(--chart);
+    font-family: var(--font-num);
+    font-size: 13px;
+    font-weight: 700;
+}
+.ogmrc-next-title {
+    margin-top: 4px !important;
+    font-size: 17px;
+    font-weight: 900;
+}
+.ogmrc-next-place {
+    color: var(--dark-card-sub);
+    font-size: 12px;
+}
+.ogmrc-boxes {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 14px;
+}
+.ogmrc-box {
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.08);
+}
+.ogmrc-box-label {
+    color: var(--chart);
+    font-size: 11px;
+    font-weight: 700;
+}
+.ogmrc-box-text {
+    margin-top: 4px !important;
+    font-size: 13px;
+    line-height: 1.5;
+}
+/* この先の予定: 横線で区切った一覧 */
+.ogmrc-schedule {
+    margin: 0;
+    padding: 4px 16px;
+    border: 1px solid var(--line);
+    border-radius: var(--card-radius);
+    background: var(--surface);
+    list-style: none;
+}
+.ogmrc-schedule li {
+    padding: 12px 0;
+}
+.ogmrc-schedule li + li {
+    border-top: 1px solid var(--line);
+}
+.ogmrc-schedule-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.ogmrc-schedule-date {
+    flex-shrink: 0;
+    width: 64px;
+    color: var(--navy);
+    font-family: var(--font-num);
+    font-size: 13px;
+    font-weight: 800;
+}
+.ogmrc-schedule-title {
+    flex: 1;
+    min-width: 0;
+    color: var(--navy);
+    font-size: 14px;
+    font-weight: 700;
+}
+.ogmrc-schedule-time {
+    flex-shrink: 0;
+    color: var(--sub);
+    font-family: var(--font-num);
+    font-size: 13px;
+}
+.ogmrc-race {
+    flex-shrink: 0;
+    padding: 2px 10px;
+    border-radius: 999px;
+    background: var(--wis);
+    color: #FFFFFF;
+    font-size: 11px;
+    font-weight: 700;
+}
+/* コーチの入力（押すと開く） */
+.ogmrc-edit {
+    margin-top: 8px;
+}
+.ogmrc-edit > summary {
+    color: var(--orange-deep);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    list-style: none;
+}
+.ogmrc-edit > summary::-webkit-details-marker {
+    display: none;
+}
+.ogmrc-edit.is-small > summary {
+    color: var(--sub);
+    font-size: 11px;
+}
+.ogmrc-form {
+    margin-top: 8px;
+    padding: 12px;
+    border-radius: 14px;
+    background: var(--beige2);
+}
+.ogmrc-delete {
+    margin-top: 6px;
+    padding: 4px 12px;
+    border: 1px solid var(--coral);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--coral);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* 合同練習の削除（詳細の中のいちばん下。押し間違えないよう、ほかのボタンと離した控えめな赤い文字） */
+.club-session-delete {
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+    text-align: right;
+}
+.club-session-delete-btn {
+    padding: 4px 0;
+    border: 0;
+    background: none;
+    color: var(--coral);
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
